@@ -31,6 +31,7 @@ function paintGreeting(text){
     greeting.classList.add(SHOWING_CN)
     greeting.innerText = `Hello ${text}`
     const logout = document.createElement("button");
+    logout.classList.add("btnStyle");
     logout.innerHTML = "LOGOUT";
     logout.addEventListener("click", clearLS);
     greeting.appendChild(logout);
