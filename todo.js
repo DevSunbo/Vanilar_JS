@@ -22,6 +22,11 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     saveToDos(toDos);
   }
 
+  function clearList(){
+    toDoList.remove();
+    localStorage.clear();
+  }
+
   function saveToDos(){
     localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
   }
@@ -70,11 +75,13 @@ const toDoForm = document.querySelector(".js-toDoForm"),
 
   function init(){
     if(checkLogin.classList.contains("showing")){
+      //FIXME todo 작성시 한 번 빈 submit 후 작동
       loadToDos();
       toDoForm.addEventListener("submit", handleSubmit);
+      const clearBtn = document.createElement("button");
+      clearBtn.addEventListener("click", claerList);
     }
     else{
-      alert(`로그인을 하세요`)
     }
   }
 
