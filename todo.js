@@ -1,10 +1,10 @@
 const toDoForm = document.querySelector(".js-toDoForm"),
   toDoInput = toDoForm.querySelector("input"),
   toDoList = document.querySelector(".js-toDoList"),
+  deleteAllBtn = document.querySelector(".clearBtn"),
   checkLogin = document.querySelector(".js-greetings");
 
   const TODOS_LS = "toDos";
-
   function filterFn(toDo){
     return toDo.id === 1;
   }
@@ -22,9 +22,23 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     saveToDos(toDos);
   }
 
+  function createClearBtn(){
+    const clearBtn = document.querySelector(".deleteAll");
+      clearBtn.innerHTML = "CLEAR";
+      deleteAllBtn.classList.add("showing");
+      deleteAllBtn.classList.remove('form');
+      deleteAllBtn.appendChild(clearBtn);
+      clearBtn.addEventListener("click", clearList);
+  }
+
   function clearList(){
-    toDoList.remove();
-    localStorage.clear();
+    while(toDoList.hasChildNodes()){
+      toDoList.removeChild(toDoList.firstChild);
+    }
+    localStorage.removeItem('toDos');
+    deleteAllBtn.classList.add('form'); 
+    deleteAllBtn.classList.remove('showing');
+    
   }
 
   function saveToDos(){
@@ -52,6 +66,8 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     };
     toDos.push(toDoObj);
     saveToDos();
+
+    createClearBtn();
   }
 
   function handleSubmit(event){
@@ -69,17 +85,17 @@ const toDoForm = document.querySelector(".js-toDoForm"),
         parsedToDos.forEach(function(toDo){
           paintToDo(toDo.text);
         });
+        
     }
      
   }
 
   function init(){
     if(checkLogin.classList.contains("showing")){
-      //FIXME todo 작성시 한 번 빈 submit 후 작동
+      //FIXME 최초 로그인 후 todo 작성시 한 번 빈 submit과 refresh 후 작동
       loadToDos();
       toDoForm.addEventListener("submit", handleSubmit);
-      const clearBtn = document.createElement("button");
-      clearBtn.addEventListener("click", claerList);
+      deleteAllBtn.classList.add('form'); 
     }
     else{
     }
