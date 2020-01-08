@@ -1,6 +1,7 @@
 const toDoForm = document.querySelector(".js-toDoForm"),
   toDoInput = toDoForm.querySelector("input"),
-  toDoList = document.querySelector(".js-toDoList");
+  toDoList = document.querySelector(".js-toDoList"),
+  checkLogin = document.querySelector(".js-greetings");
 
   const TODOS_LS = "toDos";
 
@@ -68,8 +69,13 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   }
 
   function init(){
-    loadToDos();
-    toDoForm.addEventListener("submit", handleSubmit);
+    if(checkLogin.classList.contains("showing")){
+      loadToDos();
+      toDoForm.addEventListener("submit", handleSubmit);
+    }
+    else{
+      alert(`로그인을 하세요`)
+    }
   }
 
   init();
