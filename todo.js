@@ -28,13 +28,16 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   function paintToDo(text){
     const li = document.createElement("li")
     const delBtn = document.createElement("button");
+    const checkBox = document.createElement("input");
+    checkBox.setAttribute("type", "checkbox");
     delBtn.innerHTML = "X";
     delBtn.addEventListener("click", deleteToDo);
     const span = document.createElement("span");
     const newId = toDos.length + 1;
     span.innerText = text;
-    li.appendChild(delBtn);
+    li.appendChild(checkBox);
     li.appendChild(span);
+    li.appendChild(delBtn);
     li.id = newId;
     toDoList.appendChild(li);
     const toDoObj = {
