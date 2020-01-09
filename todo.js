@@ -58,13 +58,28 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
   }
 
-  function overlapData(text){
+  function textMaxLength(text){
     if(text.length <43){
     }
     else{
       throw new Error("Error @ over")
     }
-      
+  }
+  // 텍스트를 대문자로 변환해서 비교
+  function overlapData(text){
+    const UpperText = text.toUpperCase();
+    const loadedToDos = localStorage.getItem(TODOS_LS);
+    let overlapDatas = false;
+    if(loadedToDos !== null){
+        const parsedToDos = JSON.parse(loadedToDos);
+        parsedToDos.forEach(function(toDo){
+          const UpperToDo = toDo.text.toUpperCase(); 
+          if(UpperToDo === UpperText){ 
+            overlapDatas = true;
+          }
+        });
+    }
+    return overlapDatas;
   }
 
   function paintToDo(text){
@@ -94,8 +109,10 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   function handleSubmit(event){
     event.preventDefault();
     const currentValue = toDoInput.value;
-    overlapData(currentValue);
-    paintToDo(currentValue);
+    textMaxLength(currentValue);
+    if(!overlapData(currentValue)){
+      paintToDo(currentValue);
+    }
     toDoInput.value = "";
   }
 
