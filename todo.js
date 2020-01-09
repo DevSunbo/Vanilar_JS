@@ -22,13 +22,32 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     saveToDos(toDos);
   }
 
+  function deleteCheckedBox(){
+    const checked = toDoList.querySelectorAll("input");
+    checked.forEach(function(chk){
+      if(chk.checked){
+        const parentNodeChk = chk.parentNode;
+        parentNodeChk.remove();
+        const cleanToDos = toDos.filter(function(toDo){
+          return toDo.id !== parseInt(parentNodeChk.id);
+        });
+        toDos = cleanToDos;
+        saveToDos(toDos);
+      }
+    });
+  }
+
   function createClearBtn(){
     const clearBtn = document.querySelector(".deleteAll");
-      clearBtn.innerHTML = "CLEAR";
-      deleteAllBtn.classList.add("showing");
-      deleteAllBtn.classList.remove('form');
-      deleteAllBtn.appendChild(clearBtn);
-      clearBtn.addEventListener("click", clearList);
+    const deleteSelectBtn = document.querySelector(".deleteChecked");
+    clearBtn.innerHTML = "CLEAR";
+    deleteSelectBtn.innerHTML = "Selecte Delete";
+    deleteAllBtn.classList.add("showing");
+    deleteAllBtn.classList.remove('form');
+    deleteAllBtn.appendChild(clearBtn);
+    deleteAllBtn.appendChild(deleteSelectBtn);
+    clearBtn.addEventListener("click", clearList);
+    deleteSelectBtn.addEventListener("click", deleteCheckedBox);
   }
 
   function clearList(){
