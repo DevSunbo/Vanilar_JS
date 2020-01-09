@@ -11,6 +11,8 @@ const toDoForm = document.querySelector(".js-toDoForm"),
 
   let toDos = [];
 
+  
+
   function deleteToDo(event){
     const btn = event.target;
     const li = btn.parentNode;
@@ -24,11 +26,14 @@ const toDoForm = document.querySelector(".js-toDoForm"),
 
   function createClearBtn(){
     const clearBtn = document.querySelector(".deleteAll");
+    const clearSelBtn = document.querySelector(".deleteChecked");
       clearBtn.innerHTML = "CLEAR";
+      clearSelBtn.innerHTML = "Select CLEAR"
       deleteAllBtn.classList.add("showing");
       deleteAllBtn.classList.remove('form');
       deleteAllBtn.appendChild(clearBtn);
       clearBtn.addEventListener("click", clearList);
+      clearSelBtn.addEventListener("click", clearSelectList);
   }
 
   function clearList(){
@@ -38,11 +43,28 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     localStorage.removeItem('toDos');
     deleteAllBtn.classList.add('form'); 
     deleteAllBtn.classList.remove('showing');
-    
+  }
+
+  function clearSelectList(){
+   /* const checkedBox = document.querySelectorAll("li");
+    checkedBox.forEach(function(checked){
+      if(checked ===true){
+        checked. /////////////////////////////////////////////////////////////////////////// 여기부터 시작 check 한 것 삭제
+      }
+    });*/
   }
 
   function saveToDos(){
     localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
+  }
+
+  function overlapData(text){
+    if(text.length <43){
+    }
+    else{
+      throw new Error("Error @ over")
+    }
+      
   }
 
   function paintToDo(text){
@@ -66,13 +88,13 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     };
     toDos.push(toDoObj);
     saveToDos();
-
     createClearBtn();
   }
 
   function handleSubmit(event){
     event.preventDefault();
     const currentValue = toDoInput.value;
+    overlapData(currentValue);
     paintToDo(currentValue);
     toDoInput.value = "";
   }
@@ -85,9 +107,7 @@ const toDoForm = document.querySelector(".js-toDoForm"),
         parsedToDos.forEach(function(toDo){
           paintToDo(toDo.text);
         });
-        
     }
-     
   }
 
   function init(){
