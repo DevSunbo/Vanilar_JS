@@ -9,9 +9,7 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     return toDo.id === 1;
   }
 
-  let toDos = [];
-
-  
+  let toDos = [];  
 
   function deleteToDo(event){
     const btn = event.target;
@@ -92,6 +90,7 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   }
 
   function handleSubmit(event){
+    console.log(spells);
     event.preventDefault();
     const currentValue = toDoInput.value;
     overlapData(currentValue);
@@ -114,6 +113,13 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     if(checkLogin.classList.contains("showing")){
       //FIXME 최초 로그인 후 todo 작성시 한 번 빈 submit과 refresh 후 작동
       loadToDos();
+      let spells = 0;
+      toDoInput.addEventListener("keyup", function(){
+        spells++;
+        if(spells > 10){
+          alert(`입력은 10자 까지 가능합니다`);
+        }
+      });
       toDoForm.addEventListener("submit", handleSubmit);
       deleteAllBtn.classList.add('form'); 
     }
