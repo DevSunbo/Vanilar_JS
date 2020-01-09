@@ -11,16 +11,7 @@ const toDoForm = document.querySelector(".js-toDoForm"),
 
   let toDos = [];
 
-  function deleteToDo(event){
-    const btn = event.target;
-    const li = btn.parentNode;
-    toDoList.removeChild(li);
-    const cleanToDos = toDos.filter(function(toDo){
-      return toDo.id !== parseInt(li.id);
-    });
-    toDos = cleanToDos;
-    saveToDos(toDos);
-  }
+  
 
   function deleteCheckedBox(){
     const checked = toDoList.querySelectorAll("input");
@@ -66,17 +57,13 @@ const toDoForm = document.querySelector(".js-toDoForm"),
 
   function paintToDo(text){
     const li = document.createElement("li")
-    const delBtn = document.createElement("button");
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
-    delBtn.innerHTML = "X";
-    delBtn.addEventListener("click", deleteToDo);
     const span = document.createElement("span");
     const newId = toDos.length + 1;
     span.innerText = text;
     li.appendChild(checkBox);
     li.appendChild(span);
-    li.appendChild(delBtn);
     li.id = newId;
     toDoList.appendChild(li);
     const toDoObj = {
@@ -85,7 +72,7 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     };
     toDos.push(toDoObj);
     saveToDos();
-
+    //XXX load 시에 계속 반복되는데 허용 범위 인지?  
     createClearBtn();
   }
 
