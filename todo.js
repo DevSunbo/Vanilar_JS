@@ -56,6 +56,7 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
   }
 
+  /* init 완성되면 삭제
   function overlapData(text){
     if(text.length <43){
     }
@@ -64,7 +65,7 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     }
       
   }
-
+*/
   function paintToDo(text){
     const li = document.createElement("li")
     const delBtn = document.createElement("button");
@@ -114,8 +115,29 @@ const toDoForm = document.querySelector(".js-toDoForm"),
       //FIXME 최초 로그인 후 todo 작성시 한 번 빈 submit과 refresh 후 작동
       loadToDos();
       let spells = 0;
-      toDoInput.addEventListener("keyup", function(){
-        spells++;
+      toDoInput.addEventListener("keyup", function(event){
+        // 입력초과하면 error 출력할지, maxlength로 막고 출력할지
+        //backspace 입력시 spells -1 하기
+        console.log(toDoInput.value);
+        if(event.keyCode === 8){
+          if(spells !== 0){
+            spells--;
+          }
+        }
+        // space || shift || 한/영 
+        else if(event.keyCode === 32 || event.keyCode ===16 || event.keyCode === 21){
+          spells++;
+        }
+        // 영어 keycode 숫자 오른쪽 keycode 숫자 위 keycode
+        else if((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 96 && event.keyCode <= 105) || (event.keyCode >= 48 && event.keyCode <= 57)){
+          //(event.keyCode < 12592 || event.keyCode > 12687)){ //){
+          //console.log("error")
+          spells++;
+        }
+        else{
+          
+        }
+        console.log(spells);
         if(spells > 10){
           alert(`입력은 10자 까지 가능합니다`);
         }
