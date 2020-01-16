@@ -12,27 +12,34 @@ const toDoForm = document.querySelector(".js-toDoForm"),
 
   let toDos = [];
 
-  function deleteToDo(event){
-    const btn = event.target;
-    const li = btn.parentNode;
-    toDoList.removeChild(li);
+  
+
+  function deleteCheckedBox(){
+    const checked = toDoList.querySelectorAll("input");
+    checked.forEach(function(chk){
+      if(chk.checked){
+        const parentNodeChk = chk.parentNode;
+        parentNodeChk.remove();
     const cleanToDos = toDos.filter(function(toDo){
-      return toDo.id !== parseInt(li.id);
+          return toDo.id !== parseInt(parentNodeChk.id);
     });
     toDos = cleanToDos;
     saveToDos(toDos);
   }
+    });
+  }
 
   function createClearBtn(){
     const clearBtn = document.querySelector(".deleteAll");
-    const clearSelBtn = document.querySelector(".deleteChecked");
+    const deleteSelectBtn = document.querySelector(".deleteChecked");
       clearBtn.innerHTML = "CLEAR";
-      clearSelBtn.innerHTML = "Select CLEAR"
+    deleteSelectBtn.innerHTML = "Selecte Delete";
       deleteAllBtn.classList.add("showing");
       deleteAllBtn.classList.remove('form');
       deleteAllBtn.appendChild(clearBtn);
+    deleteAllBtn.appendChild(deleteSelectBtn);
       clearBtn.addEventListener("click", clearList);
-      clearSelBtn.addEventListener("click", clearSelectList);
+    deleteSelectBtn.addEventListener("click", deleteCheckedBox);
   }
 
   function clearList(){
@@ -42,44 +49,22 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     localStorage.removeItem('toDos');
     deleteAllBtn.classList.add('form'); 
     deleteAllBtn.classList.remove('showing');
-  }
     
-  function clearSelectList(){
-   /* const checkedBox = document.querySelectorAll("li");
-    checkedBox.forEach(function(checked){
-      if(checked ===true){
-        checked. /////////////////////////////////////////////////////////////////////////// 여기부터 시작 check 한 것 삭제
-      }
-    });*/
   }
 
   function saveToDos(){
     localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
   }
 
-  /* init 완성되면 삭제
-  function overlapData(text){
-    if(text.length <43){
-    }
-    else{
-      throw new Error("Error @ over")
-    }
-      
-  }
-*/
   function paintToDo(text){
     const li = document.createElement("li")
-    const delBtn = document.createElement("button");
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
-    delBtn.innerHTML = "X";
-    delBtn.addEventListener("click", deleteToDo);
     const span = document.createElement("span");
     const newId = toDos.length + 1;
     span.innerText = text;
     li.appendChild(checkBox);
     li.appendChild(span);
-    li.appendChild(delBtn);
     li.id = newId;
     toDoList.appendChild(li);
     const toDoObj = {
@@ -88,15 +73,13 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     };
     toDos.push(toDoObj);
     saveToDos();
-
+    //XXX load 시에 계속 반복되는데 허용 범위 인지?  
     createClearBtn();
   }
 
   function handleSubmit(event){
-    console.log(spells);
     event.preventDefault();
     const currentValue = toDoInput.value;
-    overlapData(currentValue);
     paintToDo(currentValue);
     toDoInput.value = "";
   }
@@ -109,22 +92,15 @@ const toDoForm = document.querySelector(".js-toDoForm"),
         parsedToDos.forEach(function(toDo){
           paintToDo(toDo.text);
         });
+        
     }
+     
   }
 
   function init(){
     if(checkLogin.classList.contains("showing")){
       //FIXME 최초 로그인 후 todo 작성시 한 번 빈 submit과 refresh 후 작동
       loadToDos();
-      let spells = toDoInput.value;
-      // key를 입력할 때마다 확인 
-      toDoInput.addEventListener("keyup", function(event){
-        spells = toDoInput.value;
-        if(spells.length >= 20){
-          alert("20자 까지 입력 가능합니다");
-          throw new Error ("Error @ 20자 이상 입력은 불가능합니다");
-        }
-      });
       toDoForm.addEventListener("submit", handleSubmit);
       deleteAllBtn.classList.add('form'); 
     }
