@@ -8,6 +8,7 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   function filterFn(toDo){
     return toDo.id === 1;
   }
+  
 
   let toDos = [];
 
