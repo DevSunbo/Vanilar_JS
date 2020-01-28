@@ -8,26 +8,41 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   function filterFn(toDo){
     return toDo.id === 1;
   }
-  
+
 
   let toDos = [];
 
-  
+
+  function confirmChecked(){
+    const checked = toDoList.querySelectorAll("input");
+    let oneCheck = true; //foreach의 break 대신 사용
+    checked.forEach(function(chk){
+      if(chk.checked && oneCheck){
+        const boolConfirm = confirm("선택한 내용을 삭제하시겠습니까?");
+        oneCheck = false;
+        return boolConfirm;  
+      }
+    });
+  }
 
   function deleteCheckedBox(){
-    const checked = toDoList.querySelectorAll("input");
-    checked.forEach(function(chk){
-      if(chk.checked){
-        const parentNodeChk = chk.parentNode;
-        parentNodeChk.remove();
-    const cleanToDos = toDos.filter(function(toDo){
-          return toDo.id !== parseInt(parentNodeChk.id);
-    });
-    toDos = cleanToDos;
-    saveToDos(toDos);
+    if(confirmChecked()){
+      const checked = toDoList.querySelectorAll("input");
+      checked.forEach(function(chk){
+        if(chk.checked){
+          const parentNodeChk = chk.parentNode;
+          parentNodeChk.remove();
+        const cleanToDos = toDos.filter(function(toDo){
+              return toDo.id !== parseInt(parentNodeChk.id);
+        });
+        toDos = cleanToDos;
+        saveToDos(toDos);
+        }
+      });
+    }
   }
-    });
-  }
+
+  
 
   function createClearBtn(){
     const clearBtn = document.querySelector(".deleteAll");
@@ -49,12 +64,13 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     localStorage.removeItem('toDos');
     deleteAllBtn.classList.add('form'); 
     deleteAllBtn.classList.remove('showing');
-    
+
   }
 
   function saveToDos(){
     localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
   }
+
 
   function paintToDo(text){
     const li = document.createElement("li")
@@ -92,15 +108,24 @@ const toDoForm = document.querySelector(".js-toDoForm"),
         parsedToDos.forEach(function(toDo){
           paintToDo(toDo.text);
         });
-        
+
     }
-     
+
   }
 
   function init(){
     if(checkLogin.classList.contains("showing")){
       //FIXME 최초 로그인 후 todo 작성시 한 번 빈 submit과 refresh 후 작동
       loadToDos();
+      let spells = toDoInput.value;
+      // key를 입력할 때마다 확인 
+      toDoInput.addEventListener("keyup", function(event){
+        spells = toDoInput.value;
+        if(spells.length >= 30){
+          alert("30자 까지 입력 가능합니다");
+          throw new Error ("Error @ 30자 이상 입력은 불가능합니다");
+        }
+      });
       toDoForm.addEventListener("submit", handleSubmit);
       deleteAllBtn.classList.add('form'); 
     }
@@ -108,4 +133,4 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     }
   }
 
-  init();
+  init(); 
