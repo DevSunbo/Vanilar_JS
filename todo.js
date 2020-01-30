@@ -32,18 +32,27 @@ function overlapData(text){
   function confirmChecked(){
     const checked = toDoList.querySelectorAll("input");
     let oneCheck = true; //foreach의 break 대신 사용
+    let checkNow = false;
+    let howManyCheck = 0;
+    // 체크된 것 개수 확인
+    checked.forEach(function(chk){
+      if(chk.checked ){
+        ++howManyCheck;
+      }
+    });
+    // 개수 받아서 팝업 띄우기  (팝업 1번만 띄우기 위해서 만듬)
     checked.forEach(function(chk){
       if(chk.checked && oneCheck){
-        const boolConfirm = confirm("선택한 내용을 삭제하시겠습니까?");
+        const boolConfirm = confirm(`${howManyCheck} 개가 선택되었습니다. 내용을 삭제하시겠습니까?`);
         oneCheck = false;
+        checkNow = boolConfirm;
         return boolConfirm;  
       }
     });
+    return checkNow;
   }
 
   function deleteCheckedBox(){
-    const c = confirmChecked();
-    console.log(c);
     if(confirmChecked()){
       const checked = toDoList.querySelectorAll("input");
       checked.forEach(function(chk){
