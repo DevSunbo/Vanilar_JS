@@ -52,6 +52,11 @@ span{
   margin: 5px;
 }
 
+.map{
+  width:500px;
+  height:400px;
+}
+
 @keyframes fadeIn{
   from{
     opacity: 0;
