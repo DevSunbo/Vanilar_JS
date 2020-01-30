@@ -43,7 +43,7 @@ function overlapData(text){
     // 개수 받아서 팝업 띄우기  (팝업 1번만 띄우기 위해서 만듬)
     checked.forEach(function(chk){
       if(chk.checked && oneCheck){
-        const boolConfirm = confirm(`${howManyCheck} 개가 선택되었습니다. 내용을 삭제하시겠습니까?`);
+        const boolConfirm = confirm(`${howManyCheck} 개가 선택되었습니다. \n내용을 삭제하시겠습니까?`);
         oneCheck = false;
         checkNow = boolConfirm;
         return boolConfirm;  
