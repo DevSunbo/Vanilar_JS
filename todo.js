@@ -4,6 +4,7 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   deleteAllBtn = document.querySelector(".clearBtn"),
   checkLogin = document.querySelector(".js-greetings");
 
+  const API_ID = "u61viz6mtu"
   const TODOS_LS = "toDos";
   function filterFn(toDo){
     return toDo.id === 1;
@@ -11,7 +12,22 @@ const toDoForm = document.querySelector(".js-toDoForm"),
 
 
   let toDos = [];
-
+// 텍스트를 대문자로 변환해서 비교
+function overlapData(text){
+  const UpperText = text.toUpperCase().trim();
+  const loadedToDos = localStorage.getItem(TODOS_LS);
+  let overlapDatas = false;
+  if(loadedToDos !== null){
+      const parsedToDos = JSON.parse(loadedToDos);
+      parsedToDos.forEach(function(toDo){
+        const UpperToDo = toDo.text.toUpperCase().trim(); 
+        if(UpperToDo === UpperText){ 
+          overlapDatas = true;
+        }
+      });
+  }
+  return overlapDatas;
+}
 
   function confirmChecked(){
     const checked = toDoList.querySelectorAll("input");
@@ -26,6 +42,8 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   }
 
   function deleteCheckedBox(){
+    const c = confirmChecked();
+    console.log(c);
     if(confirmChecked()){
       const checked = toDoList.querySelectorAll("input");
       checked.forEach(function(chk){
@@ -58,17 +76,30 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   }
 
   function clearList(){
-    while(toDoList.hasChildNodes()){
-      toDoList.removeChild(toDoList.firstChild);
+    const confirmClear = confirm("전체 내용을 삭제하시겠습니까?");
+    if(confirmClear){
+      while(toDoList.hasChildNodes()){
+        toDoList.removeChild(toDoList.firstChild);
+      }
+      localStorage.removeItem('toDos');
+      deleteAllBtn.classList.add('form'); 
+      deleteAllBtn.classList.remove('showing');
     }
-    localStorage.removeItem('toDos');
-    deleteAllBtn.classList.add('form'); 
-    deleteAllBtn.classList.remove('showing');
 
   }
 
   function saveToDos(){
     localStorage.setItem(TODOS_LS, JSON.stringify(toDos));
+  }
+
+  function createMap(){
+    
+    var map = new naver.maps.Map('map', {
+      //src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=u61viz6mtu",
+      useStyleMap: true,
+      center: new naver.maps.LatLng(37.3595704, 127.105399),
+      zoom: 10
+  });
   }
 
 
@@ -77,6 +108,8 @@ const toDoForm = document.querySelector(".js-toDoForm"),
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
     const span = document.createElement("span");
+    const map = document.createElement("div");
+    map.classList.add("map");
     const newId = toDos.length + 1;
     span.innerText = text;
     li.appendChild(checkBox);
@@ -96,8 +129,14 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   function handleSubmit(event){
     event.preventDefault();
     const currentValue = toDoInput.value;
-    paintToDo(currentValue);
-    toDoInput.value = "";
+    if(!overlapData(currentValue)){
+      paintToDo(currentValue);
+      toDoInput.value = "";
+    }
+    else{
+      alert("중복된 입력입니다");
+    }
+    
   }
 
 
@@ -134,3 +173,4 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   }
 
   init(); 
+//createMap();
