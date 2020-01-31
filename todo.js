@@ -4,10 +4,18 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   deleteAllBtn = document.querySelector(".clearBtn"),
   checkLogin = document.querySelector(".js-greetings");
 
-  const API_ID = "u61viz6mtu"
   const TODOS_LS = "toDos";
   function filterFn(toDo){
     return toDo.id === 1;
+  }
+
+  function createMap(){
+    var mapOptions = {
+      center: new naver.maps.LatLng(37.3595704, 127.105399),
+      zoom: 10
+  };
+  
+  var map = new naver.maps.Map('map', mapOptions);
   }
 
 
@@ -182,4 +190,4 @@ function overlapData(text){
   }
 
   init(); 
-//createMap();
+createMap();
