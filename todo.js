@@ -11,12 +11,14 @@ const toDoForm = document.querySelector(".js-toDoForm"),
 
   function createMap(){
     var mapOptions = {
+      useStyleMap: true,
       center: new naver.maps.LatLng(37.3595704, 127.105399),
       zoom: 10
   };
   
   var map = new naver.maps.Map('map', mapOptions);
   }
+ 
 
 
   let toDos = [];
@@ -67,9 +69,9 @@ function overlapData(text){
         if(chk.checked){
           const parentNodeChk = chk.parentNode;
           parentNodeChk.remove();
-        const cleanToDos = toDos.filter(function(toDo){
-              return toDo.id !== parseInt(parentNodeChk.id);
-        });
+          const cleanToDos = toDos.filter(function(toDo){
+            return toDo.id !== parseInt(parentNodeChk.id);
+          });
         toDos = cleanToDos;
         saveToDos(toDos);
         }
@@ -82,13 +84,14 @@ function overlapData(text){
   function createClearBtn(){
     const clearBtn = document.querySelector(".deleteAll");
     const deleteSelectBtn = document.querySelector(".deleteChecked");
-      clearBtn.innerHTML = "CLEAR";
+    clearBtn.innerHTML = "CLEAR";
     deleteSelectBtn.innerHTML = "Selecte Delete";
-      deleteAllBtn.classList.add("showing");
-      deleteAllBtn.classList.remove('form');
-      deleteAllBtn.appendChild(clearBtn);
+
+    deleteAllBtn.classList.add("showing");
+    deleteAllBtn.classList.remove('form');
+    deleteAllBtn.appendChild(clearBtn);
     deleteAllBtn.appendChild(deleteSelectBtn);
-      clearBtn.addEventListener("click", clearList);
+    clearBtn.addEventListener("click", clearList);
     deleteSelectBtn.addEventListener("click", deleteCheckedBox);
   }
 
@@ -170,7 +173,12 @@ function overlapData(text){
   }
 
   function init(){
-    if(checkLogin.classList.contains("showing")){
+    //const test = db.admin.find();
+    //console.log(test);
+    const currentUser = localStorage.getItem("currentUser");
+    if(currentUser === null){ console.log("여긴 아니야")}
+    else{
+      console.log("여기도 아니야");
       //FIXME 최초 로그인 후 todo 작성시 한 번 빈 submit과 refresh 후 작동
       loadToDos();
       let spells = toDoInput.value;
@@ -183,11 +191,9 @@ function overlapData(text){
         }
       });
       toDoForm.addEventListener("submit", handleSubmit);
-      deleteAllBtn.classList.add('form'); 
-    }
-    else{
     }
   }
-
-  init(); 
-createMap();
+  
+init(); 
+  
+//createMap();
