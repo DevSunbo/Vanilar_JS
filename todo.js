@@ -1,8 +1,7 @@
 const toDoForm = document.querySelector(".js-toDoForm"),
   toDoInput = toDoForm.querySelector("input"),
   toDoList = document.querySelector(".js-toDoList"),
-  deleteAllBtn = document.querySelector(".clearBtn"),
-  checkLogin = document.querySelector(".js-greetings");
+  deleteAllBtn = document.querySelector(".clearBtn");
 
   const TODOS_LS = "toDos";
   function filterFn(toDo){
@@ -149,7 +148,9 @@ function overlapData(text){
   function handleSubmit(event){
     event.preventDefault();
     const currentValue = toDoInput.value;
-    if(!overlapData(currentValue)){
+    const currentUser = localStorage.getItem("currentUser");
+    if(currentUser === null){} //로그인이 되어있는지 확인
+    else if(!overlapData(currentValue)){
       paintToDo(currentValue);
       toDoInput.value = "";
     }
@@ -176,8 +177,8 @@ function overlapData(text){
     //const test = db.admin.find();
     //console.log(test);
     const currentUser = localStorage.getItem("currentUser");
-    if(currentUser === null){ console.log("여긴 아니야")}
-    else{
+    //if(currentUser === null){ console.log("여긴 아니야")}
+    //else{
       console.log("여기도 아니야");
       //FIXME 최초 로그인 후 todo 작성시 한 번 빈 submit과 refresh 후 작동
       loadToDos();
@@ -191,7 +192,7 @@ function overlapData(text){
         }
       });
       toDoForm.addEventListener("submit", handleSubmit);
-    }
+    //}
   }
   
 init(); 

@@ -1,5 +1,5 @@
 const form = document.querySelector(".js-form"),
-      input = document.querySelector("input"),
+      input = form.querySelector("input"),
       greeting = document.querySelector(".js-greetings");
       toDoListInGreeting = document.querySelector(".js-toDoList"),
       nameLog = document.querySelector(".writeName");
@@ -20,7 +20,7 @@ function clearLS(){
     toDoListInGreeting.remove();
     localStorage.clear();
     window.location.reload();
-    loadName();
+    //loadName();
 }
 
 function handleSubmit(event){
