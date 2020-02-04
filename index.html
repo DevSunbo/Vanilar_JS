@@ -4,7 +4,7 @@
     <title>Something</title>
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="index.css"/>
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=u61viz6mtu"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=ut2zuenako"></script>
   </head>
   <body>
     <main class="centerAlign item">
@@ -18,11 +18,11 @@
       <h4 class="js-greetings greetings"></h4>
       <div id="map" style="width:100%;height:400px;"></div>
       <form class="js-toDoForm">
-        <input type="text" class="inputTextStyle" placeholder="Write a to do" maxlength="30"/>
+        <input type="text" class="writeTodos inputTextStyle" placeholder="Write a to do" maxlength="30"/>
       </form>
       <ul class="js-toDoList">      
       </ul>
-      <span class="clearBtn">
+      <span class="clearBtn" style="display: none;">
         <button class="deleteChecked"></button>
         <button class="deleteAll"></button>
       </span>
@@ -32,6 +32,8 @@
     <script src="greeting.js"></script>
     <script src="todo.js"></script>
     <script src="bg.js"></script>
+    <script src="server_mongo/server.js"></script>
+    <script src="db.js"></script>
     
   </body>
 </html>
