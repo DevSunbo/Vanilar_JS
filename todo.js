@@ -1,7 +1,7 @@
 const toDoForm = document.querySelector(".js-toDoForm"),
   toDoInput = toDoForm.querySelector("input"),
   toDoList = document.querySelector(".js-toDoList"),
-  deleteAllBtn = document.querySelector(".clearBtn");
+  deleteButtons = document.querySelector(".clearBtn");
 
   const TODOS_LS = "toDos";
   function filterFn(toDo){
@@ -86,10 +86,10 @@ function overlapData(text){
     clearBtn.innerHTML = "CLEAR";
     deleteSelectBtn.innerHTML = "Selecte Delete";
 
-    deleteAllBtn.classList.add("showing");
-    deleteAllBtn.classList.remove('form');
-    deleteAllBtn.appendChild(clearBtn);
-    deleteAllBtn.appendChild(deleteSelectBtn);
+    deleteButtons.classList.add("showing");
+    deleteButtons.classList.remove('form');
+    //deleteButtons.appendChild(clearBtn);
+    //deleteButtons.appendChild(deleteSelectBtn);
     clearBtn.addEventListener("click", clearList);
     deleteSelectBtn.addEventListener("click", deleteCheckedBox);
   }
@@ -101,8 +101,8 @@ function overlapData(text){
         toDoList.removeChild(toDoList.firstChild);
       }
       localStorage.removeItem('toDos');
-      deleteAllBtn.classList.add('form'); 
-      deleteAllBtn.classList.remove('showing');
+      deleteButtons.classList.add('form'); 
+      deleteButtons.classList.remove('showing');
     }
 
   }
@@ -121,9 +121,10 @@ function overlapData(text){
   });
   }
 
-
   function paintToDo(text){
-    const li = document.createElement("li")
+    const p = document.createElement('p');
+    const label = document.createElement('label');
+    const li = document.createElement("li");
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
     const span = document.createElement("span");
@@ -131,8 +132,11 @@ function overlapData(text){
     map.classList.add("map");
     const newId = toDos.length + 1;
     span.innerText = text;
-    li.appendChild(checkBox);
-    li.appendChild(span);
+    //li.appendChild(checkBox);
+    li.appendChild(p);
+    p.appendChild(label);
+    label.appendChild(checkBox);
+    label.appendChild(span);
     li.id = newId;
     toDoList.appendChild(li);
     const toDoObj = {
@@ -168,18 +172,11 @@ function overlapData(text){
         parsedToDos.forEach(function(toDo){
           paintToDo(toDo.text);
         });
-
     }
-
   }
 
   function init(){
-    //const test = db.admin.find();
-    //console.log(test);
     const currentUser = localStorage.getItem("currentUser");
-    //if(currentUser === null){ console.log("여긴 아니야")}
-    //else{
-      console.log("여기도 아니야");
       //FIXME 최초 로그인 후 todo 작성시 한 번 빈 submit과 refresh 후 작동
       loadToDos();
       let spells = toDoInput.value;
@@ -192,7 +189,7 @@ function overlapData(text){
         }
       });
       toDoForm.addEventListener("submit", handleSubmit);
-    //}
+      deleteButtons.classList.add('form'); 
   }
   
 init(); 
