@@ -1,9 +1,12 @@
 const toDoForm = document.querySelector(".js-toDoForm"),
   toDoInput = toDoForm.querySelector("input"),
   toDoList = document.querySelector(".js-toDoList"),
-  deleteButtons = document.querySelector(".clearBtn");
+  deleteButtons = document.querySelector(".clearBtn"),
+  deleteChecked = deleteButtons.querySelector(".deleteChecked");
 
   const TODOS_LS = "toDos";
+
+ 
 
   function filterFn(toDo){
     return toDo.id === 1;
@@ -26,10 +29,10 @@ const toDoForm = document.querySelector(".js-toDoForm"),
       const clearTodoListYes = document.querySelector('#agreeAllClear');
       clearTodoListYes.addEventListener("click", clearList);
 
-      const selecteDelete = document.querySelector('.selecteDeleteModal');
-      const selecteDeleteInstances = M.Modal.init(selecteDelete);
-      const selecteDeleteYes = document.querySelector('#agreeCheckDelete');
-      selecteDeleteYes.addEventListener("click", deleteCheckedBox);
+      const selectDelete = document.querySelector('.selectDeleteModal');
+      const selectDeleteInstances = M.Modal.init(selectDelete);
+      const selectDeleteYes = document.querySelector('#agreeCheckDelete');
+      selectDeleteYes.addEventListener("click", deleteCheckedBox);
   });
   
 }
@@ -53,27 +56,25 @@ function overlapData(text){
   return overlapDatas;
 }
 
+function selectDeleteMessage(){
+  const selectChecked = document.querySelector('.select-checked');
+  const selectDeleteContent = document.createElement('span');
+  selectChecked.appendChild(selectDeleteContent);
+}
+
   function confirmChecked(){
-    const checked = toDoList.querySelectorAll("input");
-    let oneCheck = true; //foreach의 break 대신 사용
-    let checkNow = false;
+    console.log("몇번됨");
+    const check = toDoList.querySelectorAll("input");
     let howManyCheck = 0;
     // 체크된 것 개수 확인
-    checked.forEach(function(chk){
-      if(chk.checked ){
+    check.forEach(function(chk){
+      if(chk.checked){
         ++howManyCheck;
       }
     });
-    // 개수 받아서 팝업 띄우기  (팝업 1번만 띄우기 위해서 만듬)
-    checked.forEach(function(chk){
-      if(chk.checked && oneCheck){
-        const boolConfirm = confirm(`${howManyCheck} 개가 선택되었습니다. \n내용을 삭제하시겠습니까?`);
-        oneCheck = false;
-        checkNow = boolConfirm;
-        return boolConfirm;  
-      }
-    });
-    return checkNow;
+    const selectChecked = document.querySelector('.select-checked');
+    const selectDeleteContent = selectChecked.querySelector('span');
+    selectDeleteContent.innerText = `${howManyCheck} 개가 선택되어있습니다`
   }
 
   function deleteCheckedBox(){
@@ -99,12 +100,16 @@ function overlapData(text){
     const clearBtn = document.querySelector(".deleteAll");
     const deleteSelectBtn = document.querySelector(".deleteChecked");
     clearBtn.innerHTML = "CLEAR";
-    deleteSelectBtn.innerHTML = "Selecte Delete";
+    deleteSelectBtn.innerHTML = "select Delete";
 
     deleteButtons.classList.add("showing");
     deleteButtons.classList.remove('form');
     deleteButtons.appendChild(clearBtn);
     deleteButtons.appendChild(deleteSelectBtn);
+
+    selectDeleteMessage();
+    deleteChecked.addEventListener("click", confirmChecked);
+
   }
 
   function clearList(){
@@ -133,12 +138,11 @@ function overlapData(text){
   function paintToDo(text){
     const p = document.createElement('p');
     const label = document.createElement('label');
+
     const li = document.createElement("li");
     const checkBox = document.createElement("input");
     checkBox.setAttribute("type", "checkbox");
     const span = document.createElement("span");
-    const map = document.createElement("div");
-    map.classList.add("map");
     const newId = toDos.length + 1;
     span.innerText = text;
     li.appendChild(p);
@@ -199,8 +203,7 @@ function overlapData(text){
       toDoForm.addEventListener("submit", handleSubmit);
       deleteButtons.classList.add('form'); 
       openModal();
-
   }
-  
+
 init(); 
 //createMap();
