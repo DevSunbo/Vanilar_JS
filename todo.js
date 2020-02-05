@@ -33,6 +33,9 @@ const toDoForm = document.querySelector(".js-toDoForm"),
       const selectDeleteInstances = M.Modal.init(selectDelete);
       const selectDeleteYes = document.querySelector('#agreeCheckDelete');
       selectDeleteYes.addEventListener("click", deleteCheckedBox);
+
+      const limit30 = document.querySelector('.limit30');
+      const limit30Instances = M.Modal.init(limit30);
   });
   
 }
@@ -170,7 +173,7 @@ function selectDeleteMessage(){
       paintToDo(currentValue);
       toDoInput.value = "";
     }
-    else{
+    else{ 
       alert("중복된 입력입니다");
     }
     
@@ -187,6 +190,14 @@ function selectDeleteMessage(){
     }
   }
 
+  function makeModal(){
+    document.addEventListener('DOMContentLoaded', function() {
+      const limit30 = document.querySelector('.limit30');
+      const limit30Instances = M.Modal.init(limit30);
+  });
+    
+  }
+
   function init(){
     const currentUser = localStorage.getItem("currentUser");
       //FIXME 최초 로그인 후 todo 작성시 한 번 빈 submit과 refresh 후 작동
@@ -196,7 +207,9 @@ function selectDeleteMessage(){
       toDoInput.addEventListener("keyup", function(event){
         spells = toDoInput.value;
         if(spells.length >= 30){
-          alert("30자 까지 입력 가능합니다");
+          //alert("30자 까지 입력 가능합니다");
+          document.querySelector('#limit30Click').click();
+          //makeModal();
           throw new Error ("Error @ 30자 이상 입력은 불가능합니다");
         }
       });
