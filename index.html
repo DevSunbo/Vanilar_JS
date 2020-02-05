@@ -10,10 +10,21 @@
   </head>
   <body>
     <header>
-      <div id="modal1" class="modal">
+      
+      <div id="clearModal" class="clearModal modal">
         <div class="modal-content">
-          <h4>Modal Header</h4>
+          <h4>전체 삭제 하시겠습니까</h4>
           <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+      </div>
+
+      <div id="selecteDeleteModal" class="selecteDeleteModal modal">
+        <div class="modal-content">
+          <h4>선택된 내용을 삭제하시겠습니까</h4>
+          <p>n개의 내용이 선택되어있습니다</p>
         </div>
         <div class="modal-footer">
           <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
@@ -38,8 +49,8 @@
       </ul>
       
       <span class="clearBtn" >
-        <button class="deleteChecked"><a href="#modal1"></a></button>
-        <button class="deleteAll"></button>
+        <button data-target="selecteDeleteModal" class="btn modal-trigger deleteChecked"></button>
+        <button data-target="clearModal" class="btn modal-trigger deleteAll"></button>
       </span>
       <span class-="js-weather"></span>
     </main>

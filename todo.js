@@ -4,6 +4,7 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   deleteButtons = document.querySelector(".clearBtn");
 
   const TODOS_LS = "toDos";
+
   function filterFn(toDo){
     return toDo.id === 1;
   }
@@ -18,6 +19,15 @@ const toDoForm = document.querySelector(".js-toDoForm"),
   var map = new naver.maps.Map('map', mapOptions);
   }
  
+  function openModal(){
+    document.addEventListener('DOMContentLoaded', function() {
+      const selecteDelete = document.querySelector('.selecteDeleteModal');
+      const selecteDeleteInstances = M.Modal.init(selecteDelete);
+
+      const clearTodoList = document.querySelector('.clearModal');
+      const clearTodoListInstances = M.Modal.init(clearTodoList);
+  });
+}
 
 
   let toDos = [];
@@ -89,12 +99,14 @@ function overlapData(text){
     deleteButtons.classList.add("showing");
     deleteButtons.classList.remove('form');
     //deleteButtons.appendChild(clearBtn);
-    //deleteButtons.appendChild(deleteSelectBtn);
+   // deleteButtons.appendChild(deleteSelectBtn);
+   // clearBtn.addEventListener("click", openModal);
     clearBtn.addEventListener("click", clearList);
     deleteSelectBtn.addEventListener("click", deleteCheckedBox);
   }
 
   function clearList(){
+    //openModal();
     const confirmClear = confirm("전체 내용을 삭제하시겠습니까?");
     if(confirmClear){
       while(toDoList.hasChildNodes()){
@@ -190,8 +202,9 @@ function overlapData(text){
       });
       toDoForm.addEventListener("submit", handleSubmit);
       deleteButtons.classList.add('form'); 
+      openModal();
+
   }
   
 init(); 
-  
 //createMap();
