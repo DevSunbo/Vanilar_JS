@@ -24,18 +24,25 @@ const toDoForm = document.querySelector(".js-toDoForm"),
  
   function openModal(){
     document.addEventListener('DOMContentLoaded', function() {
+      //전체 삭제
       const clearTodoList = document.querySelector('.clearModal');
       const clearTodoListInstances = M.Modal.init(clearTodoList);
       const clearTodoListYes = document.querySelector('#agreeAllClear');
       clearTodoListYes.addEventListener("click", clearList);
-
+      
+      // 선택삭제
       const selectDelete = document.querySelector('.selectDeleteModal');
       const selectDeleteInstances = M.Modal.init(selectDelete);
       const selectDeleteYes = document.querySelector('#agreeCheckDelete');
       selectDeleteYes.addEventListener("click", deleteCheckedBox);
 
+      // 글자수 30 제한
       const limit30 = document.querySelector('.limit30');
       const limit30Instances = M.Modal.init(limit30);
+
+      //중복입력 제한
+      const overlap = document.querySelector('.overlap');
+      const overlapInstances = M.Modal.init(overlap);
   });
   
 }
@@ -174,7 +181,7 @@ function selectDeleteMessage(){
       toDoInput.value = "";
     }
     else{ 
-      alert("중복된 입력입니다");
+      document.querySelector('#overlapClick').click();
     }
     
   }
@@ -190,13 +197,6 @@ function selectDeleteMessage(){
     }
   }
 
-  function makeModal(){
-    document.addEventListener('DOMContentLoaded', function() {
-      const limit30 = document.querySelector('.limit30');
-      const limit30Instances = M.Modal.init(limit30);
-  });
-    
-  }
 
   function init(){
     const currentUser = localStorage.getItem("currentUser");
@@ -207,9 +207,7 @@ function selectDeleteMessage(){
       toDoInput.addEventListener("keyup", function(event){
         spells = toDoInput.value;
         if(spells.length >= 30){
-          //alert("30자 까지 입력 가능합니다");
           document.querySelector('#limit30Click').click();
-          //makeModal();
           throw new Error ("Error @ 30자 이상 입력은 불가능합니다");
         }
       });
