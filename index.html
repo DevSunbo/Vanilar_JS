@@ -17,7 +17,9 @@
           <p>A bunch of text</p>
         </div>
         <div class="modal-footer">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+          
+          <a href="#!" id="agreeAllClear" class="modal-close waves-effect waves-green btn-flat">예</a>
+          <a href="#!" id="disagree" class="modal-close waves-effect waves-red btn-flat">아니오</a>
         </div>
       </div>
 
@@ -27,7 +29,8 @@
           <p>n개의 내용이 선택되어있습니다</p>
         </div>
         <div class="modal-footer">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+          <a href="#!" id="agreeCheckDelete" class="modal-close waves-effect waves-green btn-flat">예</a>
+          <a href="#!" class="modal-close waves-effect waves-red btn-flat">아니오</a>
         </div>
       </div>
     </header>
@@ -54,12 +57,13 @@
       </span>
       <span class-="js-weather"></span>
     </main>
-    <script src="clock.js"></script>
+    
+    
+  </body>
+  <script src="clock.js"></script>
     <script src="greeting.js"></script>
     <script src="todo.js"></script>
     <script src="bg.js"></script>
     <script src="server_mongo/server.js"></script>
     <script src="db.js"></script>
-    
-  </body>
 </html>

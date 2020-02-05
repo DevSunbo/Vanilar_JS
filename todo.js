@@ -21,12 +21,17 @@ const toDoForm = document.querySelector(".js-toDoForm"),
  
   function openModal(){
     document.addEventListener('DOMContentLoaded', function() {
-      const selecteDelete = document.querySelector('.selecteDeleteModal');
-      const selecteDeleteInstances = M.Modal.init(selecteDelete);
-
       const clearTodoList = document.querySelector('.clearModal');
       const clearTodoListInstances = M.Modal.init(clearTodoList);
+      const clearTodoListYes = document.querySelector('#agreeAllClear');
+      clearTodoListYes.addEventListener("click", clearList);
+
+      const selecteDelete = document.querySelector('.selecteDeleteModal');
+      const selecteDeleteInstances = M.Modal.init(selecteDelete);
+      const selecteDeleteYes = document.querySelector('#agreeCheckDelete');
+      selecteDeleteYes.addEventListener("click", deleteCheckedBox);
   });
+  
 }
 
 
@@ -72,20 +77,20 @@ function overlapData(text){
   }
 
   function deleteCheckedBox(){
-    if(confirmChecked()){
-      const checked = toDoList.querySelectorAll("input");
-      checked.forEach(function(chk){
-        if(chk.checked){
-          const parentNodeChk = chk.parentNode;
-          parentNodeChk.remove();
-          const cleanToDos = toDos.filter(function(toDo){
-            return toDo.id !== parseInt(parentNodeChk.id);
-          });
-        toDos = cleanToDos;
-        saveToDos(toDos);
-        }
-      });
-    }
+    const checked = toDoList.querySelectorAll("input");
+    checked.forEach(function(chk){
+      if(chk.checked){
+        const parentNodeLabel = chk.parentNode;
+        const parentNodeP = parentNodeLabel.parentNode;
+        const parentNodeLi = parentNodeP.parentNode;
+        parentNodeLi.remove();
+        const cleanToDos = toDos.filter(function(toDo){
+          return toDo.id !== parseInt(parentNodeLi.id);
+        });
+      toDos = cleanToDos;
+      saveToDos(toDos);
+      }
+    });
   }
 
   
@@ -98,25 +103,17 @@ function overlapData(text){
 
     deleteButtons.classList.add("showing");
     deleteButtons.classList.remove('form');
-    //deleteButtons.appendChild(clearBtn);
-   // deleteButtons.appendChild(deleteSelectBtn);
-   // clearBtn.addEventListener("click", openModal);
-    clearBtn.addEventListener("click", clearList);
-    deleteSelectBtn.addEventListener("click", deleteCheckedBox);
+    deleteButtons.appendChild(clearBtn);
+    deleteButtons.appendChild(deleteSelectBtn);
   }
 
   function clearList(){
-    //openModal();
-    const confirmClear = confirm("전체 내용을 삭제하시겠습니까?");
-    if(confirmClear){
-      while(toDoList.hasChildNodes()){
-        toDoList.removeChild(toDoList.firstChild);
-      }
+    while(toDoList.hasChildNodes()){
+      toDoList.removeChild(toDoList.firstChild);
       localStorage.removeItem('toDos');
       deleteButtons.classList.add('form'); 
       deleteButtons.classList.remove('showing');
     }
-
   }
 
   function saveToDos(){
@@ -144,7 +141,6 @@ function overlapData(text){
     map.classList.add("map");
     const newId = toDos.length + 1;
     span.innerText = text;
-    //li.appendChild(checkBox);
     li.appendChild(p);
     p.appendChild(label);
     label.appendChild(checkBox);
